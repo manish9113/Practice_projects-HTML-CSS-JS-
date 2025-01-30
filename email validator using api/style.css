@@ -1,0 +1,40 @@
+*{
+    margin: 0;
+    padding: 0;
+    
+}
+#emailvalcontainer{
+    border:2px solid black;
+    display:flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height:40vh;
+}
+#emailvalcontainer h1{
+    padding:15px;
+}
+#emailvalcontainer input[type="text"]{
+    width:28vw;
+    height:4vh;
+
+}
+input:focus{
+    border:3px solid gray;
+}
+#emailvalcontainer input[type="submit"]{
+    border-radius: 18px;
+    width: 13vw;
+    background-color: aquamarine;
+    border: 2px solid blue;
+    margin-bottom: 3px;
+}
+#resultcontainer{
+    border:2px solid black;
+    display:flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding-top: 13px;
+}
+

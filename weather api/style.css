@@ -1,0 +1,39 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+.navbar{
+    display:flex;
+    justify-content: center;
+    align-items: center;
+}
+.navcontainer{
+    display:flex;
+
+}
+.navcontainer img{
+    padding-right: 15px;
+    padding-top: 8px;
+    width:5vh;
+    height:5vh;
+}
+#search{
+    display:flex;
+    
+   
+}
+.submitbtn{
+    font-size: 11px;
+    margin-bottom: 6px;
+}
+
+.maincontainer{
+    margin:12px;
+    padding: 53px;
+    background-color: #a8cec2;
+    
+}
+.footer{
+    display:flex;
+    justify-content: space-evenly;
+}

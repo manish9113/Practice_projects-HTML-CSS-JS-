@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Email validator</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div id="emailvalcontainer">
+        <h1>Enter your Email To Validate</h1>
+
+        <form >
+
+            <input type="text" id="username" name="username" placeholder="Enter your Email to Validate" required>
+            <br><br>
+
+
+
+            <!-- Radio buttons for gender -->
+            <label>Gender:</label>
+            <input type="radio" id="male" name="gender" value="male">
+            <label for="male">Male</label>
+            <input type="radio" id="female" name="gender" value="female">
+            <label for="female">Female</label>
+            <br><br>
+
+            <!-- Submit button -->
+            <div id="submitbtn">
+                <input type="submit" value="Submit">
+            </div>
+            
+        </form>
+
+
+    </div>
+    <div id="resultcontainer">
+        Your results are loading...
+    </div>
+    <script src="script.js"></script>
+</body>
+
+</html>

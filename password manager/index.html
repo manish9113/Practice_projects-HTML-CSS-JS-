@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Password Manager</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <nav id="navbar">
+        <h1>passx</h1>
+        <ul>
+            <li>Home</li>
+            <li>About</li>
+            <li>Contact us</li>
+        </ul>
+    </nav>
+    <div id="passmanager">
+        <div id="table">
+            <table id="tb">
+                <tr>
+                    <th>Website</th>
+                    <th>UserName</th>
+                    <th>Password</th>
+                    <th>Delete</th>
+                </tr>
+               
+            </table>
+
+        </div>
+    </div>
+    <div id="entry">
+        <form >
+            <!-- Text input for website -->
+            <label for="website">Website:</label>
+            <input type="text" id="website" name="website" required>
+            <br><br>
+            <!-- Text input for username -->
+            <label for="username">Username:</label>
+            <input type="text" id="username" name="username" required>
+            <br><br>
+        
+            <!-- Password input -->
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password" required>
+            <br><br>
+        
+            <!-- Submit button -->
+           <button id="savebtn">
+                  Submit
+           </button>
+          </form>
+    </div>
+
+
+
+    <script src="script.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,63 @@
+*{
+    padding: 0;
+    margin: 0;
+}
+#navbar{
+    border:2px solid gray;
+    background-color: black;
+    color:white;
+    display:flex;
+    justify-content: space-between;
+}
+nav h1{
+    padding:10px;
+    cursor:pointer;
+}
+#navbar ul{
+    display:flex;
+    
+
+}
+nav ul li{
+    list-style-type: none;
+    padding:10px;
+    cursor:pointer;
+}
+#table{
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    margin:15px;
+}
+
+table,th,td{
+    border:2px solid black;
+
+    
+}
+td,th{
+    padding:15px;
+}
+#entry{
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    
+}
+form{
+    background-color: aquamarine;
+    padding:15px;
+    font-size:24px;
+}
+img{
+    width: 20px;
+    height: 12px;
+    padding: 1px ;
+    cursor:pointer;
+}
+#savebtn{
+    font-size: 20px;
+    padding: 3px;
+    border-radius: 4px;
+    cursor:pointer;
+}
