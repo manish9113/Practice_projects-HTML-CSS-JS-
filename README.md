@@ -56,7 +56,7 @@ A **secure password manager** to generate and store passwords locally.
 
 ### 1️⃣ Clone the Repository  
 
-git clone https://github.com/your-username/repo-name.git
+git clone https://github.com/manish9113/Practice_projects-HTML-CSS-JS-.git
 
 cd repo-name
 
