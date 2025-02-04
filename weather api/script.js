@@ -1,64 +1,100 @@
-let city = document.getElementById('city');
-let submit = document.getElementById('submitbtn');
-let temp = document.getElementById('temp');
-let max_temp = document.getElementById('max_temp');
-let min_temp = document.getElementById('min_temp');
-let humidity = document.getElementById('humidity');
-let wind_speed = document.getElementById('wind_speed');
-let wind_degrees = document.getElementById('wind_degrees');
-let feelslike = document.getElementById('feelslike');
-let sunrise = document.getElementById('sunrise');
-let sunset = document.getElementById('sunset');
+document.addEventListener('DOMContentLoaded', () => {
+    
+    const API_KEY = '2680eebbd173a14ce0bbf1e936d73101';
 
-// Using Yahoo Weather API to fetch weather of different cities
-async function fetchweather(city) {
-    const url = `https://yahoo-weather5.p.rapidapi.com/weather?location=${city}&format=json&u=f`;
-    const options = {
-        method: 'GET',
-        headers: {
-            'x-rapidapi-key': '6cd625cd02mshaa1025599cb5758p136f0cjsn9da6c8168956', // Use your API key here
-            'x-rapidapi-host': 'yahoo-weather5.p.rapidapi.com'
+    let city = document.getElementById('city');
+    let submit = document.getElementById('submitbtn');
+    let unitToggle = document.getElementById('unitToggle');
+    let tempUnit = 'metric'; 
+
+    async function fetchWeather(city) {
+        try {
+            const response = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city}&units=${tempUnit}&appid=${API_KEY}`);
+            if (!response.ok) throw new Error('City not found');
+            const data = await response.json();
+            updateUI(data);
+        } catch (error) {
+            showError(error.message);
         }
-    };
-
-    try {
-        const response = await fetch(url, options);
-        const result = await response.json();
-        console.log(result); // Checking the structure of the response
-
-        // Assuming the response contains these keys (adjust if necessary based on the response structure)
-        temp.innerHTML = result.current_observation.condition.temperature;
-        max_temp.innerHTML = result.forecasts[0].high;
-        min_temp.innerHTML = result.forecasts[0].low;
-        humidity.innerHTML = result.current_observation.atmosphere.humidity;
-        wind_speed.innerHTML = result.current_observation.wind.speed;
-        wind_degrees.innerHTML = result.current_observation.wind.direction;
-        feelslike.innerHTML = result.current_observation.condition.temperature; // Assuming this is the feels like temp
-        sunrise.innerHTML = result.current_observation.astronomy.sunrise;
-        sunset.innerHTML = result.current_observation.astronomy.sunset;
-
-        document.getElementById("card-temp").innerHTML = result.current_observation.condition.temperature + "°F";
-        document.getElementById("card-feelslike").innerHTML = result.current_observation.condition.temperature + "°F"; // Adjust if feelslike is different
-        if (result.current_observation.atmosphere.humidity === 0) {
-            document.getElementById("card-weather").innerHTML = "Completely Sunny Day";
-        } else if (result.current_observation.atmosphere.humidity < 50) {
-            document.getElementById("card-weather").innerHTML = "Partially Sunny Day";
-        } else {
-            document.getElementById("card-weather").innerHTML = "Humid Day";
-        }
-
-        if (result.current_observation.atmosphere.humidity >= 80) {
-            document.getElementById("imglogo").src = "img/logorain.svg";
-        } else {
-            document.getElementById("imglogo").src = "img/logosunny.svg";
-        }
-
-    } catch (error) {
-        console.error(error);
     }
-}
 
-submit.addEventListener('click', (e) => {
-    e.preventDefault();
-    fetchweather(city.value);
+    function updateUI(data) {
+        const unitSymbol = tempUnit === 'metric' ? '°C' : '°F';
+
+        document.getElementById('temp').innerHTML = `${Math.round(data.main.temp)}${unitSymbol}`;
+        document.getElementById('max_temp').innerHTML = `${Math.round(data.main.temp_max)}${unitSymbol}`;
+        document.getElementById('min_temp').innerHTML = `${Math.round(data.main.temp_min)}${unitSymbol}`;
+        document.getElementById('humidity').innerHTML = `${data.main.humidity}%`;
+        document.getElementById('wind_speed').innerHTML = `${data.wind.speed} m/s`;
+        document.getElementById('wind_degrees').innerHTML = `${data.wind.deg}°`;
+        document.getElementById('feelslike').innerHTML = `${Math.round(data.main.feels_like)}${unitSymbol}`;
+
+        const sunriseTime = new Date(data.sys.sunrise * 1000).toLocaleTimeString();
+        const sunsetTime = new Date(data.sys.sunset * 1000).toLocaleTimeString();
+        document.getElementById('sunrise').innerHTML = sunriseTime;
+        document.getElementById('sunset').innerHTML = sunsetTime;
+
+        document.getElementById('card-temp').innerHTML = `${Math.round(data.main.temp)}${unitSymbol}`;
+        document.getElementById('card-feelslike').innerHTML = `${Math.round(data.main.feels_like)}${unitSymbol}`;
+        document.getElementById('card-weather').innerHTML = data.weather[0].main;
+
+        const weatherIcon = `http://openweathermap.org/img/wn/${data.weather[0].icon}@2x.png`;
+        document.getElementById('imglogo').src = weatherIcon;
+
+        updateCards(data);
+    }
+
+    function updateCards(data) {
+        const tempCard = document.querySelector('.temperature-card');
+        const weatherCard = document.querySelector('.weather-card');
+        const overallCard = document.querySelector('.overall-card');
+
+        tempCard.innerHTML = `Current temperature is ${Math.round(data.main.temp)}${tempUnit === 'metric' ? '°C' : '°F'}`;
+        weatherCard.innerHTML = `Weather conditions: ${data.weather[0].description}`;
+        overallCard.innerHTML = `Feels like ${Math.round(data.main.feels_like)}${tempUnit === 'metric' ? '°C' : '°F'} with ${data.main.humidity}% humidity`;
+    }
+
+    function showError(message) {
+        const cards = document.querySelectorAll('.card-body');
+        cards.forEach(card => {
+            card.innerHTML = `<p class="error-message">${message}</p>`;
+        });
+    }
+
+    
+    function getLocation() {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(
+                position => fetchWeatherByCoords(position.coords.latitude, position.coords.longitude),
+                error => showError('Unable to get location')
+            );
+        }
+    }
+
+    async function fetchWeatherByCoords(lat, lon) {
+        try {
+            const response = await fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&units=${tempUnit}&appid=${API_KEY}`);
+            if (!response.ok) throw new Error('Location not found');
+            const data = await response.json();
+            city.value = data.name;
+            updateUI(data);
+        } catch (error) {
+            showError(error.message);
+        }
+    }
+
+    
+    submit.addEventListener('click', (e) => {
+        e.preventDefault();
+        if (city.value) fetchWeather(city.value);
+    });
+
+    unitToggle.addEventListener('click', () => {
+        tempUnit = tempUnit === 'metric' ? 'imperial' : 'metric';
+        unitToggle.innerText = tempUnit === 'metric' ? 'Switch to °F' : 'Switch to °C';
+        if (city.value) fetchWeather(city.value); 
+    });
+
+   
+    getLocation();
 });
