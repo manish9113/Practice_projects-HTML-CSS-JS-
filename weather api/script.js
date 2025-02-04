@@ -1,20 +1,24 @@
 document.addEventListener('DOMContentLoaded', () => {
-    
+
     const API_KEY = '2680eebbd173a14ce0bbf1e936d73101';
 
     let city = document.getElementById('city');
     let submit = document.getElementById('submitbtn');
     let unitToggle = document.getElementById('unitToggle');
-    let tempUnit = 'metric'; 
+    let tempUnit = 'metric';
 
     async function fetchWeather(city) {
         try {
-            const response = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city}&units=${tempUnit}&appid=${API_KEY}`);
-            if (!response.ok) throw new Error('City not found');
-            const data = await response.json();
-            updateUI(data);
+            const response = await axios.get(`https://api.openweathermap.org/data/2.5/weather`, {
+                params: {
+                    q: city,
+                    units: tempUnit,
+                    appid: API_KEY
+                }
+            });
+            updateUI(response.data);
         } catch (error) {
-            showError(error.message);
+            showError(error.response ? error.response.data.message : "Failed to fetch weather data");
         }
     }
 
@@ -61,7 +65,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    
     function getLocation() {
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(
@@ -73,17 +76,21 @@ document.addEventListener('DOMContentLoaded', () => {
 
     async function fetchWeatherByCoords(lat, lon) {
         try {
-            const response = await fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&units=${tempUnit}&appid=${API_KEY}`);
-            if (!response.ok) throw new Error('Location not found');
-            const data = await response.json();
-            city.value = data.name;
-            updateUI(data);
+            const response = await axios.get(`https://api.openweathermap.org/data/2.5/weather`, {
+                params: {
+                    lat: lat,
+                    lon: lon,
+                    units: tempUnit,
+                    appid: API_KEY
+                }
+            });
+            city.value = response.data.name;
+            updateUI(response.data);
         } catch (error) {
-            showError(error.message);
+            showError(error.response ? error.response.data.message : "Failed to fetch weather data");
         }
     }
 
-    
     submit.addEventListener('click', (e) => {
         e.preventDefault();
         if (city.value) fetchWeather(city.value);
@@ -92,9 +99,8 @@ document.addEventListener('DOMContentLoaded', () => {
     unitToggle.addEventListener('click', () => {
         tempUnit = tempUnit === 'metric' ? 'imperial' : 'metric';
         unitToggle.innerText = tempUnit === 'metric' ? 'Switch to °F' : 'Switch to °C';
-        if (city.value) fetchWeather(city.value); 
+        if (city.value) fetchWeather(city.value);
     });
 
-   
     getLocation();
 });
