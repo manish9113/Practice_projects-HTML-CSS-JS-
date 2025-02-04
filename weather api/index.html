@@ -4,30 +4,32 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>weather report-using rapid api</title>
+    <title>Weather Report - Using OpenWeather API</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
     <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
-    <nav class="navbar bg-body-tertiary ">
-        <div class="navcontainer">
-
-            <img src="img/logosunny.svg" alt="Weather logo" width="30" height="24" id="imglogo">
+    <nav class="navbar bg-body-tertiary">
+       
+            <!-- used default weather logo and then changed it using javascript using the fetched logo -->
+             <div>
+                <img src="img/logosunny.svg" alt="Weather logo" width="30" height="24" id="imglogo">
+             </div>
+            
             <div id="search">
-                <form >
-                    <!-- Text input for city -->
-                    <label for="city">City:</label>
-                    <input type="text" id="city" name="city" required>
-
-
-                    <button type="button" class="btn btn-primary" id="submitbtn">Submit</button>
+                <form>
+                            <label for="city" class="white-text">City:</label>
+                            <input type="text" id="city" name="city" required>
+                             <button type="button" class="btn btn-primary" id="submitbtn">Submit</button>
+                    
                 </form>
             </div>
-
-
-        </div>
+            <div>
+                <button class="btn btn-secondary" id="unitToggle">Switch to °F</button>
+            </div>
+        
     </nav>
     <div class="maincontainer">
         <main>
@@ -38,22 +40,20 @@
                             <h4 class="my-0 fw-normal">Temperature</h4>
                         </div>
                         <div class="card-body">
-                            <h1 class="card-title pricing-card-title " id="card-temp"><small
+                            <h1 class="card-title pricing-card-title" id="card-temp"><small
                                     class="text-body-secondary fw-light">-deg C</small></h1>
                             <ul class="list-unstyled mt-3 mb-4">
                                 <li>Temperature</li><span id="temp"></span>
-                                <li>max_temperature</li><span id="max_temp"></span>
-                                <li>min_temperature</li><span id="min_temp"></span>
-                                
+                                <li>Max Temperature</li><span id="max_temp"></span>
+                                <li>Min Temperature</li><span id="min_temp"></span>
                             </ul>
-                           
                         </div>
                     </div>
                 </div>
                 <div class="col">
                     <div class="card mb-4 rounded-3 shadow-sm">
                         <div class="card-header py-3">
-                            <h4 class="my-0 fw-normal">weather</h4>
+                            <h4 class="my-0 fw-normal">Weather</h4>
                         </div>
                         <div class="card-body">
                             <h1 class="card-title pricing-card-title" id="card-weather">Humidity-level<small
@@ -62,9 +62,7 @@
                                 <li>Humidity</li><span id="humidity"></span>
                                 <li>Wind Speed</li><span id="wind_speed"></span>
                                 <li>Wind Degrees</li><span id="wind_degrees"></span>
-                                
                             </ul>
-                            
                         </div>
                     </div>
                 </div>
@@ -77,27 +75,20 @@
                             <h1 class="card-title pricing-card-title" id="card-feelslike"><small
                                     class="text-body-secondary fw-light">-deg C</small></h1>
                             <ul class="list-unstyled mt-3 mb-4">
-                                <li>Feels_like</li><span id="feelslike"></span>
+                                <li>Feels Like</li><span id="feelslike"></span>
                                 <li>Sunrise</li><span id="sunrise"></span>
                                 <li>Sunset</li><span id="sunset"></span>
-                                
-                                
                             </ul>
-                            
                         </div>
                     </div>
                 </div>
             </div>
-
-
-
         </main>
     </div>
     <div class="footer">
         <div class="card text-bg-primary mb-3" style="max-width: 18rem;">
             <div class="card-header">Temperature Report</div>
             <div class="card-body">
-               
                 <p class="card-text temperature-card"></p>
             </div>
         </div>
@@ -105,20 +96,16 @@
         <div class="card text-bg-success mb-3" style="max-width: 18rem;">
             <div class="card-header">Weather Report</div>
             <div class="card-body">
-                
                 <p class="card-text weather-card"></p>
             </div>
         </div>
         <div class="card text-bg-danger mb-3" style="max-width: 18rem;">
-            <div class="card-header">Overall report</div>
+            <div class="card-header">Overall Report</div>
             <div class="card-body">
-                
-                <p class="card-text overall-card"></p> 
+                <p class="card-text overall-card"></p>
             </div>
         </div>
-
     </div>
-
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
